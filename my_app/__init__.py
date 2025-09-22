@@ -1,10 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
 import os
 
 db_manager = SQLAlchemy()
-login_manager = LoginManager()
 
 def configure_db(app):
     # Ruta absoluta d'on està aquest fitxer __init__.py
@@ -35,15 +33,11 @@ def create_app():
     # Configuració de la base de dades
     configure_db(app)
 
-    # Inicialitza el login manager
-    login_manager.init_app(app)
-    
     with app.app_context():
-        from . import routes_main, routes_auth
+        from . import routes_main
 
         # Registra els blueprints
         app.register_blueprint(routes_main.main_bp)
-        app.register_blueprint(routes_auth.auth_bp)
 
     app.logger.info("Aplicació iniciada")
 
